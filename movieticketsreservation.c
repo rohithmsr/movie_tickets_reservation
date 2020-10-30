@@ -59,7 +59,7 @@ void insertseatno(int*,int); //insert seat no selected by user to array
 void clearscr(int);
 
 int get_book_Id(void);
-int verify_book_Id(int,USER*);
+int verify_book_Id(int,USER*);//verifies the booking id
 void Cancel_Booking(int,USER*);
 
 void main(){
