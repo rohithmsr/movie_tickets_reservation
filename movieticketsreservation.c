@@ -62,10 +62,22 @@ int get_book_Id(void);
 int verify_book_Id(int,USER*);
 void Cancel_Booking(int,USER*);
 
+
+
+
 void main(){
+        Selection* S;
         Movie* M[8];
-        struct USER *U;
-        Selection *S;
+        USER* U;//current user after login.
+
+        //creates the structure for each movie.
+
+          for(int i=0;i<8;i++){
+                  *(M+i)=Create_Movie();
+          }
+
+         Get_Movies_Info(M); //stores the movie details in the M array.
+
         int choice;
         clearscr(50);
         printf("\n\n\t\t1.CREATE A NEW ACCOUNT.");
@@ -120,12 +132,6 @@ void main(){
 
 
                                        //creates the movie structure
-
-                                       for(int i=0;i<8;i++){
-                                                *(M+i)=Create_Movie();
-                                       }
-
-                                       Get_Movies_Info(M); //stores the movie details in the M array.
                                        clearscr(50);
                                        int choice;
                                         printf("\n\t\t\t\t\t\tSARR CINEMAS");
@@ -165,6 +171,7 @@ void main(){
                                                            //U = (struct USER*)malloc(sizeof(struct USER));
                                                            Selection *ptr;
                                                            ptr = U->SELECT;
+
 
                                                            S = (struct SELECTION*)malloc(sizeof(struct SELECTION));
                                                            S->next = NULL;
@@ -232,7 +239,7 @@ void main(){
 
                               }
                   }
-                  U=NULL;
+                  U=NULL;//logout.
                   break;
 
                    }
@@ -612,7 +619,6 @@ void clearscr(int n){
       for ( int i = 0; i < n; i++ ) // n is the no of lines to skip
         printf("\n");
 }
-
 
 
 
