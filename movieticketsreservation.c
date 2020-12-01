@@ -1,6 +1,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
+#include<unistd.h>
 
 
 
@@ -17,6 +18,7 @@ struct CLIENT_DETAILS{
 USER* CREATE_CLIENT(void);
 void GET_CLIENT_DETAILS(CLIENT_DETAILS*);
 USER* VERIFY_CLIENT(CLIENT_DETAILS*);
+int VERIFY_ID(char*);
 
 
 USER* C;
@@ -93,22 +95,27 @@ void main(){
                                        USER* temp;
                                        temp=CREATE_CLIENT();
                                        GET_CLIENT_DETAILS(temp->C_D);
-
-                                       //inserting the CLIENT node in the correct position;
-                                       if(C==NULL){
-                                               C=temp;
+                                       if(VERIFY_ID(temp->C_D->ID)){
+                                               printf("\nSorry!!! Entered ID already taken try with some other ID");
                                        }
                                        else{
+
+                                          //inserting the CLIENT node in the correct position;
+                                          if(C==NULL){
+                                               C=temp;
+                                          }
+                                          else{
                                                USER* ptr;
                                                ptr=C;
                                                while(ptr->next!=NULL){
                                                        ptr=ptr->next;
                                                }
                                                ptr->next=temp;
+                                          }
+                                          clearscr(18);
+                                          printf("\nACCOUNT CREATED SUCCESSFULLY!!!");
+                                          clearscr(10);
                                        }
-                                       clearscr(18);
-                                       printf("\nACCOUNT CREATED SUCCESSFULLY!!!");
-                                       clearscr(10);
                                        break;
 
 
@@ -292,17 +299,27 @@ void GET_CLIENT_DETAILS(CLIENT_DETAILS* temp){
 
         printf("\nENTER YOUR ID:");
         fgets(temp->ID,32,stdin);
-        printf("\nENTER THE PASSWORD:");
-        fgets(temp->PASSWORD,32,stdin);
+        temp->PASSWORD=getpass("\nENTER THE PASSWORD:");//this function doesn't show the password while entering.
         return ;
+}
+int VERIFY_ID(char* Temp_ID){
+        USER* ptr;
+        ptr=C;
+        while(ptr!=NULL){
+                if(strcmp(ptr->C_D->ID,Temp_ID)==0)
+                        return 1;
+                ptr=ptr->next;
+        }
+        return 0;
+
 }
 
 USER* VERIFY_CLIENT(CLIENT_DETAILS* temp){
         USER* ptr,*result;
         ptr=C;
         while(ptr!=NULL){
-                if(strcmp(ptr->C_D->ID,temp->ID)==0){
-                                if(strcmp(ptr->C_D->PASSWORD,temp->PASSWORD)==0){
+                if(strcmp(ptr->C_D->ID,temp->ID)==0){//checks whether the given ID matches the stored ID
+                                if(strcmp(ptr->C_D->PASSWORD,temp->PASSWORD)==0){//checks whether if the given ID matches then the corresponding password matches
                                         result=ptr;
                                         return result;
                                 }
