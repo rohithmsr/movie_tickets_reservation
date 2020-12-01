@@ -255,10 +255,11 @@ void main(){
 
                                                             if(verify_book_Id(book_id,U))
                                                                Cancel_Booking(book_id,U);
-                                                            else
+                                                            else{
                                                                printf("\033[1;31m");
                                                                printf("\nBOOKING ID NOT FOUND!!!");
                                                                printf("\033[0m");
+                                                            }
                                                              break;
 
                                                }
@@ -758,4 +759,3 @@ void clearscr(int n){
       for ( int i = 0; i < n; i++ ) // n is the no of lines to skip
         printf("\n");
 }
-
