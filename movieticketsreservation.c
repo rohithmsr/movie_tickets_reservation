@@ -96,7 +96,10 @@ void main(){
                                        temp=CREATE_CLIENT();
                                        GET_CLIENT_DETAILS(temp->C_D);
                                        if(VERIFY_ID(temp->C_D->ID)){
-                                               printf("\nSorry!!! Entered ID already taken try with some other ID");
+                                               printf("\033[0;31m");
+
+                                               printf("\nOOPS!!! Entered ID already taken!\nTRY with some other ID");
+                                               printf("\033[0m");
                                        }
                                        else{
 
