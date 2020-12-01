@@ -88,11 +88,19 @@ void main(){
 
         int choice;
         clearscr(50);
+        printf("\033[1;32m");
         printf("\n\n\t\t1.CREATE A NEW ACCOUNT.");
+        printf("\033[0m");
+         printf("\033[1;36m");
         printf("\n\t\t2.LOGIN TO AN EXISTING ACCOUNT.");
+        printf("\033[0m");
+        printf("\033[1;31m");
         printf("\n\t\t3.EXIT");
+        printf("\033[0m");
         clearscr(20);
+        printf("\033[1;35m");
         printf("\nEnter your choice:");
+        printf("\033[0m");
         scanf("%d",&choice);
         getchar();
         while(choice!=3){
@@ -102,7 +110,7 @@ void main(){
                                        temp=CREATE_CLIENT();
                                        GET_CLIENT_DETAILS(temp->C_D);
                                        if(VERIFY_ID(temp->C_D->ID)){
-                                               printf("\033[0;31m"); //sets the red color
+                                               printf("\033[1;31m"); //sets the red color
 
                                                printf("\nOOPS!!! Entered ID already taken!\nTRY with some other ID");
                                                printf("\033[0m");
@@ -122,7 +130,7 @@ void main(){
                                                ptr->next=temp;
                                           }
                                           clearscr(18);
-                                          printf("\033[0;32m"); //sets the green color
+                                          printf("\033[1;32m"); //sets the green color
                                           printf("\nACCOUNT CREATED SUCCESSFULLY!!!");
                                           printf("\033[0m");
                                           clearscr(10);
@@ -138,13 +146,17 @@ void main(){
                                        GET_CLIENT_DETAILS(temp);
                                        ptr=VERIFY_CLIENT(temp);
                                        if(ptr==NULL){
+                                                 printf("\033[1;31m");
                                                clearscr(18);
                                                printf("\nINVALID USERNAME or PASSWORD!!!");
+                                               printf("\033[0m");
                                                clearscr(10);
                                        }
                                        else{
                                                clearscr(18);
+                                            printf("\033[1;32m");
                                                printf("\nSUCCESSFULLY LOGGED IN!!!");
+                                               printf("\033[0m");
                                                clearscr(10);
                                                U=ptr;
 
@@ -152,13 +164,21 @@ void main(){
                                        //creates the movie structure
                                        clearscr(50);
                                        int choice;
+                                         printf("\033[1;31m");
                                         printf("\n\t\t\t\t\t\tSARR CINEMAS");
                                         clearscr(10);
+                                        printf("\033[1;33m"); 
                                         printf("\n\t\t1.DISPLAY MOVIE SCHEDULES\n");
+                                         printf("\033[1;34m"); 
                                         printf("\n\t\t2.BOOK TICKETS!!!\n");
+                                         printf("\033[1;35m"); 
                                         printf("\n\t\t3.Cancel the booking\n");
+                                         printf("\033[1;32m"); 
                                         printf("\n\t\t4.LOGOUT.\n\n");
+                                        printf("\033[0m");
+                                         printf("\033[1;36m");
                                         printf("\nEnter your choice:");
+                                        printf("\033[0m");
                                         scanf("%d",&choice);
                                         clearscr(30);
 
@@ -178,9 +198,11 @@ void main(){
                                                             scanf("%d",&M_ID);//getting the user choice
 
                                                             if(M[M_ID-1]->filled >= 120){
+                                                                 printf("\033[1;31m");
                                                                  printf("\n\n\tHOUSEFULL\n");
                                                                  printf("\n\n\tHOUSEFULL\n");
                                                                  printf("\n\n\tHOUSEFULL\n");
+                                                                  printf("\033[0m");
                                                                  break;
                                                             }
 
@@ -234,26 +256,38 @@ void main(){
                                                             if(verify_book_Id(book_id,U))
                                                                Cancel_Booking(book_id,U);
                                                             else
+                                                               printf("\033[1;31m");
                                                                printf("\nBOOKING ID NOT FOUND!!!");
+                                                               printf("\033[0m");
                                                              break;
 
                                                }
 
 
-                                        default:{
+                                        default:{         printf("\033[1;31m");
                                                           printf("\nINVALID CHOICE!!!");
+                                                          printf("\033[0m");
                                          }
 
                                }
-                                printf("\n\t\t\t\t\t\tSARR CINEMAS");
-                                clearscr(10);
-                                printf("\n\t\t1.DISPLAY MOVIE SCHEDULES\n");
-                                printf("\n\t\t2.BOOK TICKETS!!!\n");
-                                printf("\n\t\t3.Cancel the booking\n");
-                                printf("\n\t\t4.LOGOUT.\n\n");
-                                printf("\nEnter your choice:");
-                                scanf("%d",&choice);
-                                clearscr(30);
+                                         printf("\033[1;31m");
+                                        printf("\n\n\n\t\t\t\t\t\tSARR CINEMAS");
+                                        printf("\033[0m");
+                                        clearscr(10);
+                                        printf("\033[1;33m"); 
+                                        printf("\n\t\t1.DISPLAY MOVIE SCHEDULES\n");
+                                         printf("\033[1;34m"); 
+                                        printf("\n\t\t2.BOOK TICKETS!!!\n");
+                                         printf("\033[1;35m"); 
+                                        printf("\n\t\t3.Cancel the booking\n");
+                                         printf("\033[1;32m"); 
+                                        printf("\n\t\t4.LOGOUT.\n\n");
+                                        printf("\033[0m");
+                                        printf("\033[1;36m"); 
+                                        printf("\nEnter your choice:");
+                                        printf("\033[0m");
+                                        scanf("%d",&choice);
+                                        clearscr(30);
 
                               }
                   }
@@ -279,17 +313,25 @@ void main(){
                                  exit(1);
                        }
 
-                default:{
+                default:{   printf("\033[1;31m");
                             printf("\nINVALID CHOICE!!!");
+                            printf("\033[0m");
                             break;
                         }
                 }
-
+        printf("\033[1;32m");
         printf("\n\n\t\t1.CREATE A NEW ACCOUNT.");
+        printf("\033[0m");
+         printf("\033[1;36m");
         printf("\n\t\t2.LOGIN TO AN EXISTING ACCOUNT.");
+        printf("\033[0m");
+        printf("\033[1;31m");
         printf("\n\t\t3.EXIT");
+        printf("\033[0m");
         clearscr(20);
+        printf("\033[1;35m");
         printf("\nEnter your choice:");
+          printf("\033[0m");
         scanf("%d",&choice);
         getchar();
         }
@@ -309,10 +351,14 @@ USER* CREATE_CLIENT(void){
 void GET_CLIENT_DETAILS(CLIENT_DETAILS* temp){
         temp->ID=(char*)malloc(sizeof(char));
         temp->PASSWORD=(char*)malloc(sizeof(char));
-
+        printf("\033[1;36m");
         printf("\nENTER YOUR ID:");
+        printf("\033[0m");
         fgets(temp->ID,32,stdin);
-        temp->PASSWORD=getpass("\nENTER THE PASSWORD:");//this function doesn't show the password while entering.
+         printf("\033[1;36m");
+        temp->PASSWORD=getpass("\nENTER THE PASSWORD:");
+          printf("\033[0m");
+        //this function doesn't show the password while entering.
         return ;
 }
 int VERIFY_ID(char* Temp_ID){
@@ -414,13 +460,22 @@ Movie* Create_Movie(void){
 }
 
 void Print_Movies(Movie** M){
-       printf("\n*----------------------------------------------------------------------------------------------------------------------------------------*");
-        printf("\nID\t\tMOVIE NAME\t\t\tSHOW DATE\t\t\tSHOW TIME\t\tSCREEN");
+        printf("\033[1;36m");
         printf("\n*----------------------------------------------------------------------------------------------------------------------------------------*");
+        printf("\033[0m");
+        printf("\033[1;33m");
+        printf("\nID\t\tMOVIE NAME\t\t\tSHOW DATE\t\t\tSHOW TIME\t\tSCREEN");
+        printf("\033[0m");
+        printf("\033[1;36m");
+        printf("\n*----------------------------------------------------------------------------------------------------------------------------------------*");
+        printf("\033[0m");
         for(int i=0;i<8;i++){
+                
                 printf("\n%d\t\t%-30s %-30s %-30s%s",M[i]->Id,M[i]->Movie_name,M[i]->Date,M[i]->time,M[i]->Screen);
         }
-
+         printf("\033[1;36m");
+        printf("\n----------------------------------------------------------------------------------------------------------------------------------------*");
+        printf("\033[0m");
         return;
 
 }
@@ -466,7 +521,9 @@ void generateTickets(struct SELECTION *s , struct USER *u){
 
 int get_book_Id(void){
         int val;
+         printf("\033[1;36m");
         printf("\nEnter the booking id:");
+          printf("\033[0m");
         scanf("%d",&val);
         return val;
 }
@@ -494,8 +551,10 @@ void Cancel_Booking(int book_id,USER* U){
                         ptr->SELECTED_MOVIE->booked[ptr->selected_seats[i]-100] = 0;
                         (ptr->SELECTED_MOVIE->filled)--;
                 }
+                 printf("\033[1;31m");
                 printf("\nTHE BOOKING %d CANCELLED!!!",ptr->booking_id);
                 ptr->booking_id = -1;
+                  printf("\033[0m");
             }
             ptr = ptr->next;
         }
@@ -540,12 +599,16 @@ void Select_Seats(Selection* S){
           }else if(S->SELECTED_MOVIE->booked[(seatchar-65)*20 + seatno] == 1){
               clearscr(20);
               seatsprint(S->SELECTED_MOVIE->booked,S->selected_seats);
+               printf("\033[1;31m");
               printf("Sorry,the seat is already selected\nSelect some other seat\n");
+              printf("\033[0m");
           }
           else{
               clearscr(20);
               seatsprint(S->SELECTED_MOVIE->booked,S->selected_seats);
+              printf("\033[1;31m");
               printf("Enter a valid seat number\n");
+              printf("\033[0m");
           }
 
       }
@@ -569,19 +632,25 @@ void Select_Seats(Selection* S){
           else if(S->SELECTED_MOVIE->booked[(seatchar-65)*20 + seatno] == 1){
               clearscr(20);
               seatsprint(S->SELECTED_MOVIE->booked,S->selected_seats);
+              printf("\033[1;31m");
               printf("Sorry,the seat is already selected\nSelect some other seat\n");
+                 printf("\033[0m");
           }
           else{
               clearscr(20);
               seatsprint(S->SELECTED_MOVIE->booked,S->selected_seats);
+              printf("\033[1;31m");
               printf("Enter a valid seat number\n");
+                 printf("\033[0m");
           }
 
       }
       else{
           clearscr(20);
           seatsprint(S->SELECTED_MOVIE->booked,S->selected_seats);
+          printf("\033[1;31m");
           printf("Enter a valid seat number\n");
+             printf("\033[0m");
       }
   }
 }
@@ -611,7 +680,9 @@ void insertseatno(int *arr,int a){
             break;
         }
         else{
+            printf("\033[1;31m");
             printf("Seatno insert error\n");
+             printf("\033[0m");
             break;
         }
     }
@@ -665,8 +736,10 @@ void seatsprint(int *arr,int *arr2){
     for(k = 0;k < 140;k++){
         printf("-");
     }
+    printf("\033[1;32m");
     printf("\n\t\t\t\t\t\t\t YOUR DREAM SCREEN HERE \t\t\n");
     printf("\t");
+    printf("\033[0m");
     for(k = 0;k < 140;k++){
         printf("-");
     }
@@ -687,6 +760,3 @@ void clearscr(int n){
       for ( int i = 0; i < n; i++ ) // n is the no of lines to skip
         printf("\n");
 }
-
-// -----------------------------------------------------------------------------------
-
