@@ -96,7 +96,7 @@ void main(){
                                        temp=CREATE_CLIENT();
                                        GET_CLIENT_DETAILS(temp->C_D);
                                        if(VERIFY_ID(temp->C_D->ID)){
-                                               printf("\033[0;31m");
+                                               printf("\033[0;31m");//sets the red color
 
                                                printf("\nOOPS!!! Entered ID already taken!\nTRY with some other ID");
                                                printf("\033[0m");
@@ -116,7 +116,9 @@ void main(){
                                                ptr->next=temp;
                                           }
                                           clearscr(18);
+                                          printf("\033[0;32m");//sets the green color
                                           printf("\nACCOUNT CREATED SUCCESSFULLY!!!");
+                                          printf("\033[0m");
                                           clearscr(10);
                                        }
                                        break;
