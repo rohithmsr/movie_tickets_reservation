@@ -1,8 +1,9 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
+#include<unistd.h>
 
-
+// Entities
 
 typedef struct CLIENT_DETAILS CLIENT_DETAILS;
 typedef struct USER USER;
@@ -11,16 +12,6 @@ struct CLIENT_DETAILS{
         char* ID;
         char* PASSWORD;
 };
-
-
-
-USER* CREATE_CLIENT(void);
-void GET_CLIENT_DETAILS(CLIENT_DETAILS*);
-USER* VERIFY_CLIENT(CLIENT_DETAILS*);
-
-
-USER* C;
-
 
 typedef struct MOVIE{
         int Id;
@@ -46,29 +37,46 @@ struct USER{
        USER* next;
 };
 
+//------------------------------------------------------------------------------------
+
+// User Functions
+
+USER* CREATE_CLIENT(void);
+void GET_CLIENT_DETAILS(CLIENT_DETAILS*);
+USER* VERIFY_CLIENT(CLIENT_DETAILS*);
+int VERIFY_ID(char*);
+USER* userlogin();
+
+USER* C;
+
+// Movie
+
 Movie* Create_Movie(void);
 void Get_Movies_Info(Movie**);
-void Print_Movies(Movie**);//prints movie details
+void Print_Movies(Movie**); //prints movie details
 
-USER* userlogin();
+// Tickets and Booking
+
 void generateTickets();
-
-void Select_Seats();
-void seatsprint(int*,int*);//print seats and screen
-void insertseatno(int*,int); //insert seat no selected by user to array
-void clearscr(int);
 
 int get_book_Id(void);
 int verify_book_Id(int,USER*);
 void Cancel_Booking(int,USER*);
 
+// Seats Selection
 
+void Select_Seats();
+void seatsprint(int*,int*); //print seats and screen
+void insertseatno(int*,int); //insert seat no selected by user to array
+void clearscr(int);
+
+//----------------------------------------------------------------------------------------
 
 
 void main(){
         Selection* S;
         Movie* M[8];
-        USER* U;//current user after login.
+        USER* U; //current user after login.
 
         //creates the structure for each movie.
 
@@ -93,22 +101,32 @@ void main(){
                                        USER* temp;
                                        temp=CREATE_CLIENT();
                                        GET_CLIENT_DETAILS(temp->C_D);
+                                       if(VERIFY_ID(temp->C_D->ID)){
+                                               printf("\033[0;31m"); //sets the red color
 
-                                       //inserting the CLIENT node in the correct position;
-                                       if(C==NULL){
-                                               C=temp;
+                                               printf("\nOOPS!!! Entered ID already taken!\nTRY with some other ID");
+                                               printf("\033[0m");
                                        }
                                        else{
+
+                                          //inserting the CLIENT node in the correct position;
+                                          if(C==NULL){
+                                               C=temp;
+                                          }
+                                          else{
                                                USER* ptr;
                                                ptr=C;
                                                while(ptr->next!=NULL){
                                                        ptr=ptr->next;
                                                }
                                                ptr->next=temp;
+                                          }
+                                          clearscr(18);
+                                          printf("\033[0;32m"); //sets the green color
+                                          printf("\nACCOUNT CREATED SUCCESSFULLY!!!");
+                                          printf("\033[0m");
+                                          clearscr(10);
                                        }
-                                       clearscr(18);
-                                       printf("\nACCOUNT CREATED SUCCESSFULLY!!!");
-                                       clearscr(10);
                                        break;
 
 
@@ -278,6 +296,8 @@ void main(){
 
 }
 
+// User
+
 USER* CREATE_CLIENT(void){
         USER* c;
         c=(USER*)malloc(sizeof(USER));
@@ -292,17 +312,27 @@ void GET_CLIENT_DETAILS(CLIENT_DETAILS* temp){
 
         printf("\nENTER YOUR ID:");
         fgets(temp->ID,32,stdin);
-        printf("\nENTER THE PASSWORD:");
-        fgets(temp->PASSWORD,32,stdin);
+        temp->PASSWORD=getpass("\nENTER THE PASSWORD:");//this function doesn't show the password while entering.
         return ;
+}
+int VERIFY_ID(char* Temp_ID){
+        USER* ptr;
+        ptr=C;
+        while(ptr!=NULL){
+                if(strcmp(ptr->C_D->ID,Temp_ID)==0)
+                        return 1;
+                ptr=ptr->next;
+        }
+        return 0;
+
 }
 
 USER* VERIFY_CLIENT(CLIENT_DETAILS* temp){
         USER* ptr,*result;
         ptr=C;
         while(ptr!=NULL){
-                if(strcmp(ptr->C_D->ID,temp->ID)==0){
-                                if(strcmp(ptr->C_D->PASSWORD,temp->PASSWORD)==0){
+                if(strcmp(ptr->C_D->ID,temp->ID)==0){//checks whether the given ID matches the stored ID
+                                if(strcmp(ptr->C_D->PASSWORD,temp->PASSWORD)==0){//checks whether if the given ID matches then the corresponding password matches
                                         result=ptr;
                                         return result;
                                 }
@@ -313,49 +343,7 @@ USER* VERIFY_CLIENT(CLIENT_DETAILS* temp){
 }
 
 
-
-
-
-
-int get_book_Id(void){
-        int val;
-        printf("\nEnter the booking id:");
-        scanf("%d",&val);
-        return val;
-}
-
-
-int verify_book_Id(int book_id,USER* U){
-        Selection* ptr;
-        ptr=U->SELECT;
-        while(ptr!=NULL){
-                if(ptr->booking_id==book_id)
-                        return 1;
-                ptr=ptr->next;
-        }
-
-        if(ptr==NULL)
-                return 0;
-}
-
-void Cancel_Booking(int book_id,USER* U){
-        Selection* ptr,*pre_ptr;
-        ptr=U->SELECT;
-        while(ptr != NULL){//if the first node is to delete
-            if(book_id == ptr->booking_id){
-                for(int i=0; i<ptr->number_of_seats; i++){
-                        ptr->SELECTED_MOVIE->booked[ptr->selected_seats[i]-100] = 0;
-                }
-                printf("\nTHE BOOKING %d CANCELLED!!!",ptr->booking_id);
-                ptr->booking_id = -1;
-            }
-            ptr = ptr->next;
-        }
-        return;
-}
-
-
-
+// Movie ----------------------------------------------------------------------------------------
 
 void Get_Movies_Info(Movie** M){
        M[0]->Id=1;
@@ -436,6 +424,86 @@ void Print_Movies(Movie** M){
         return;
 
 }
+
+
+// Tickets and Booking ----------------------------------------------------------------------------------
+
+
+void generateTickets(struct SELECTION *s , struct USER *u){
+            int sum = 0,row,col;
+            printf("\n\t\t\t\t\t\t---------------YOUR TICKET--------------------@@\n");
+            printf("\t\t\t\t\t\t|\tSARR CINEMAS      bookingId:%d\n",s->booking_id);
+            printf("\t\t\t\t\t\t|\tNAME : %s\n" , u->C_D->ID);
+            printf("\t\t\t\t\t\t|\tSEAT : ");
+            for(int i = 0;i < s->number_of_seats;i++){
+                col = s->selected_seats[i]-100;
+                row = ((s->selected_seats[i]-100)/20);
+                if(row < 2){
+                    sum += 150;
+                }
+                else if(row < 5){
+                    sum += 120;
+                }
+                else{
+                    sum += 30;
+                }
+                printf("%c%d",((s->selected_seats[i]-101)/20 + 65),(col-1)%20 + 1);
+                if(i+1 != s->number_of_seats){
+                    printf(",");
+                }
+            }
+            printf("\n");
+            printf("\t\t\t\t\t\t|\t______________________________\n");
+            printf("\t\t\t\t\t\t|\t%s\n",s->SELECTED_MOVIE->Movie_name);
+            printf("\t\t\t\t\t\t|\t______________________________\n");
+            printf("\t\t\t\t\t\t|\tDATETIME : %s  %s\n",s->SELECTED_MOVIE->Date,s->SELECTED_MOVIE->time);
+            printf("\t\t\t\t\t\t|\tNO OF SEATS SELECTED  : %d\n",s->number_of_seats);
+            printf("\t\t\t\t\t\t|\t_______________________________\n");
+            printf("\t\t\t\t\t\t|\tTOTAL                 :Rs.%d\n",sum);
+            printf("\t\t\t\t\t\t|----------------------------------------------@@\n");
+}
+
+
+int get_book_Id(void){
+        int val;
+        printf("\nEnter the booking id:");
+        scanf("%d",&val);
+        return val;
+}
+
+
+int verify_book_Id(int book_id,USER* U){
+        Selection* ptr;
+        ptr=U->SELECT;
+        while(ptr!=NULL){
+                if(ptr->booking_id==book_id)
+                        return 1;
+                ptr=ptr->next;
+        }
+
+        if(ptr==NULL)
+                return 0;
+}
+
+void Cancel_Booking(int book_id,USER* U){
+        Selection* ptr,*pre_ptr;
+        ptr=U->SELECT;
+        while(ptr != NULL){//if the first node is to delete
+            if(book_id == ptr->booking_id){
+                for(int i=0; i<ptr->number_of_seats; i++){
+                        ptr->SELECTED_MOVIE->booked[ptr->selected_seats[i]-100] = 0;
+                        (ptr->SELECTED_MOVIE->filled)--;
+                }
+                printf("\nTHE BOOKING %d CANCELLED!!!",ptr->booking_id);
+                ptr->booking_id = -1;
+            }
+            ptr = ptr->next;
+        }
+        return;
+}
+
+
+// Seats Selection --------------------------------------------------------------
 
 void Select_Seats(Selection* S){
   int seatno,counter = 0;
@@ -582,15 +650,15 @@ void seatsprint(int *arr,int *arr2){
         }
         printf("\n\n");
         if(k == 1){
-            printf("PLATINUM\n");
+            printf("PLATINUM - Rs.150\n");
             printf("\n\n\n");
         }
         if(k == 4){
-            printf("ELITE\n");
+            printf("ELITE - Rs.120\n");
             printf("\n\n\n\n");
         }
         if(k == 5){
-            printf("BUDGET\n\n\n");
+            printf("BUDGET - Rs.30\n\n\n");
         }
     }
     printf("\t");
@@ -620,39 +688,5 @@ void clearscr(int n){
         printf("\n");
 }
 
+// -----------------------------------------------------------------------------------
 
-
-
-void generateTickets(struct SELECTION *s , struct USER *u){
-            int sum = 0,row,col;
-            printf("\n\t\t\t\t\t\t---------------YOUR TICKET--------------------@@\n");
-            printf("\t\t\t\t\t\t|\tSARR CINEMAS      bookingId:%d\n",s->booking_id);
-            printf("\t\t\t\t\t\t|\tNAME : %s\n" , u->C_D->ID);
-            printf("\t\t\t\t\t\t|\tSEAT : ");
-            for(int i = 0;i < s->number_of_seats;i++){
-                col = s->selected_seats[i]-100;
-                row = ((s->selected_seats[i]-100)/20);
-                if(row < 2){
-                    sum += 150;
-                }
-                else if(row < 5){
-                    sum += 120;
-                }
-                else{
-                    sum += 30;
-                }
-                printf("%c%d",((s->selected_seats[i]-101)/20 + 65),(col-1)%20 + 1);
-                if(i+1 != s->number_of_seats){
-                    printf(",");
-                }
-            }
-            printf("\n");
-            printf("\t\t\t\t\t\t|\t______________________________\n");
-            printf("\t\t\t\t\t\t|\t%s\n",s->SELECTED_MOVIE->Movie_name);
-            printf("\t\t\t\t\t\t|\t______________________________\n");
-            printf("\t\t\t\t\t\t|\tDATETIME : %s  %s\n",s->SELECTED_MOVIE->Date,s->SELECTED_MOVIE->time);
-            printf("\t\t\t\t\t\t|\tNO OF SEATS SELECTED  : %d\n",s->number_of_seats);
-            printf("\t\t\t\t\t\t|\t_______________________________\n");
-            printf("\t\t\t\t\t\t|\tTOTAL                 :Rs.%d\n",sum);
-            printf("\t\t\t\t\t\t|----------------------------------------------@@\n");
-}
