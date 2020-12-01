@@ -355,9 +355,7 @@ void GET_CLIENT_DETAILS(CLIENT_DETAILS* temp){
         printf("\nENTER YOUR ID:");
         printf("\033[0m");
         fgets(temp->ID,32,stdin);
-         printf("\033[1;36m");
-        temp->PASSWORD=getpass("\nENTER THE PASSWORD:");
-          printf("\033[0m");
+        temp->PASSWORD=getpass("\033[1;36m\nENTER THE PASSWORD:\033[0m");
         //this function doesn't show the password while entering.
         return ;
 }
