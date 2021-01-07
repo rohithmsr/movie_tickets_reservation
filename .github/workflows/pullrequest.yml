@@ -1,6 +1,6 @@
 name: PR Helper
 
-on: [pull_request, pull_request_review, issue_comment]
+on: pull_request
 
 jobs:
   prhelper_job:
@@ -16,10 +16,12 @@ jobs:
         enable-prlabel-automation: true
         enable-prreviewer-frontmatter: false
         enable-welcomemessage: true
-        welcome-message: "Thanks for opening an issue! Make sure you've followed CONTRIBUTING.md."
+        welcome-message: "Thanks for opening your first pull request!Happy Coding!!!!"
         prmerge-requireallchecks: true
-        prmerge-requirereviewcount: 1
+        prmerge-requirereviewcount: -1
         prmerge-method: 'merge'
+        prmerge-pathcheck: false
+    ##################################### 
         prlabel-default: 'pr-onhold'
         prlabel-ready: 'pr-ready'
         prlabel-onhold: 'pr-onhold'
