@@ -21,7 +21,7 @@ jobs:
         prmerge-requirereviewcount: -1
         prmerge-method: 'merge'
         prmerge-pathcheck: true
-        prmerge-allowpaths: "{'any':['./**']}"
+        prmerge-allowpaths: "{any:[./**]}"
         prlabel-default: 'pr-onhold'
         prlabel-ready: 'pr-ready'
         prlabel-onhold: 'pr-onhold'
